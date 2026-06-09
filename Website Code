@@ -1,0 +1,385 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+ 
+:root{
+  --paper:#f6f1e7;
+  --paper-2:#fbf8f1;
+  --ink:#17140f;
+  --ink-soft:#4d463b;
+  --faint:#8a8070;
+  --rule:#ddd2bd;
+  --red:#9c2f1f;
+  --red-soft:#c5634f;
+  --green:#3c6b46;
+  --gold:#9a7b2e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--paper);color:var(--ink);font-family:'Spectral',Georgia,serif;line-height:1.55;
+  background-image:radial-gradient(circle at 15% -10%, #fcf8ef 0%, var(--paper) 60%);}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.035;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.wrap{max-width:880px;margin:0 auto;padding:0 22px;position:relative;z-index:2;}
+ 
+/* top bar */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:13px 22px;
+  border-bottom:1px solid var(--rule);position:sticky;top:0;backdrop-filter:blur(8px);
+  background:rgba(246,241,231,.82);z-index:10;}
+.topbar .brand{font-family:'Fraunces',serif;font-weight:900;letter-spacing:-.02em;font-size:20px;}
+.topbar .brand span{color:var(--red);}
+.topbar .right{display:flex;align-items:center;gap:14px;font-size:12px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--faint);}
+.refresh{font-family:'Spectral',serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  background:var(--ink);color:var(--paper);border:none;padding:7px 13px;border-radius:2px;cursor:pointer;
+  transition:background .2s;}
+.refresh:hover{background:var(--red);}
+.refresh:disabled{opacity:.45;cursor:default;}
+ 
+/* hero */
+.hero{padding:54px 0 30px;border-bottom:3px double var(--ink);text-align:center;
+  animation:rise .8s ease both;}
+.hero .kicker{font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--red);margin-bottom:18px;}
+.hero h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(46px,10vw,92px);line-height:.9;
+  letter-spacing:-.035em;}
+.hero .tag{font-family:'Spectral',serif;font-style:italic;font-size:clamp(17px,3vw,21px);
+  color:var(--ink-soft);margin-top:18px;}
+.todayline{max-width:620px;margin:26px auto 0;font-size:18px;color:var(--ink);
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:16px 0;}
+.todayline b{font-family:'Fraunces',serif;}
+ 
+/* beginner strip */
+.howto{background:var(--ink);color:var(--paper);border-radius:3px;padding:18px 22px;margin:26px 0 8px;
+  display:flex;gap:16px;align-items:flex-start;animation:rise .8s .1s ease both;}
+.howto .dot{flex:0 0 auto;width:34px;height:34px;border:1.5px solid var(--red-soft);border-radius:50%;
+  display:grid;place-items:center;color:var(--red-soft);font-family:'Fraunces',serif;font-size:18px;}
+.howto p{font-size:14.5px;line-height:1.5;color:#e9e2d4;}
+.howto b{color:#fff;font-family:'Fraunces',serif;}
+ 
+/* section head */
+.sec{font-family:'Fraunces',serif;font-weight:600;font-size:13px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--red);border-bottom:1.5px solid var(--ink);
+  padding-bottom:6px;margin:46px 0 20px;display:flex;justify-content:space-between;align-items:baseline;}
+.sec small{color:var(--faint);letter-spacing:.04em;text-transform:none;font-style:italic;font-size:12px;}
+ 
+/* tape */
+.tape{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);}
+.cell{background:var(--paper-2);padding:12px 13px;transition:transform .15s;}
+.cell:hover{transform:translateY(-2px);}
+.cell .nm{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);}
+.cell .mv{font-family:'Fraunces',serif;font-weight:600;font-size:23px;line-height:1.15;margin-top:2px;}
+.cell .nt{font-size:12.5px;color:var(--ink-soft);margin-top:3px;line-height:1.35;}
+.up{color:var(--green);} .down{color:var(--red);} .flat{color:var(--ink);}
+ 
+/* stories + dominoes */
+.story{margin-bottom:34px;animation:rise .7s ease both;}
+.story h3{font-family:'Fraunces',serif;font-weight:600;font-size:27px;line-height:1.12;
+  letter-spacing:-.015em;margin-bottom:10px;}
+.story h3 .num{color:var(--red);margin-right:8px;}
+.story .what{font-size:17.5px;margin-bottom:7px;}
+.story .why{font-style:italic;color:var(--ink-soft);font-size:16.5px;}
+.chain{margin-top:16px;background:var(--paper-2);border:1px solid var(--rule);
+  border-left:3px solid var(--red);border-radius:3px;padding:16px 18px 10px;}
+.chain .lab{font-family:'Fraunces',serif;font-weight:600;font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--red);margin-bottom:12px;}
+.step{position:relative;padding:0 0 16px 38px;}
+.step:last-child{padding-bottom:2px;}
+.step .b{position:absolute;left:0;top:-1px;width:24px;height:24px;border-radius:50%;
+  background:var(--ink);color:var(--paper);display:grid;place-items:center;
+  font-family:'Fraunces',serif;font-size:12px;font-weight:600;}
+.step .line{position:absolute;left:11px;top:25px;bottom:2px;width:1.5px;background:var(--rule);}
+.step:last-child .line{display:none;}
+.step .txt{font-size:15.5px;line-height:1.5;padding-top:1px;}
+.step .arrow{position:absolute;left:7px;bottom:5px;color:var(--red-soft);font-size:13px;}
+ 
+/* radar */
+.radar{display:grid;grid-template-columns:96px 1fr;gap:0;}
+.radar .row{display:contents;}
+.radar .t{font-family:'Fraunces',serif;font-weight:600;color:var(--red);padding:12px 14px 12px 0;
+  border-bottom:1px solid var(--rule);}
+.radar .d{padding:12px 0;border-bottom:1px solid var(--rule);font-size:16px;}
+.radar .d .exp{color:var(--ink-soft);font-size:14px;margin-top:4px;}
+.radar .d .imp{font-size:14px;margin-top:6px;}
+.radar .d .imp b{font-family:'Fraunces',serif;}
+ 
+/* themes */
+.theme{padding:11px 0;border-bottom:1px solid var(--rule);font-size:16.5px;}
+.theme b{font-family:'Fraunces',serif;}
+ 
+/* one thing */
+.onething{background:var(--ink);color:var(--paper);border-radius:3px;padding:34px 32px;margin-top:34px;
+  position:relative;overflow:hidden;}
+.onething::before{content:'"';position:absolute;top:-30px;right:18px;font-family:'Fraunces',serif;
+  font-size:200px;color:rgba(197,99,79,.16);line-height:1;}
+.onething .lab{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--red-soft);
+  margin-bottom:14px;}
+.onething p{font-family:'Fraunces',serif;font-weight:500;font-size:23px;line-height:1.4;position:relative;}
+ 
+/* QA */
+.qa{margin-top:50px;border-top:3px double var(--ink);padding-top:26px;}
+.qa h2{font-family:'Fraunces',serif;font-weight:600;font-size:27px;letter-spacing:-.01em;}
+.qa .sub{color:var(--ink-soft);font-size:15.5px;margin:4px 0 18px;}
+.askbox{display:flex;gap:8px;}
+.askbox input{flex:1;font-family:'Spectral',serif;font-size:16px;padding:13px 15px;border:1.5px solid var(--ink);
+  background:var(--paper-2);border-radius:2px;outline:none;}
+.askbox input:focus{border-color:var(--red);}
+.askbox button{font-family:'Spectral',serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--ink);color:var(--paper);border:none;padding:0 22px;border-radius:2px;cursor:pointer;}
+.askbox button:hover{background:var(--red);}
+.askbox button:disabled{opacity:.45;cursor:default;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.chip{font-size:13px;color:var(--ink-soft);border:1px solid var(--rule);background:var(--paper-2);
+  padding:7px 12px;border-radius:20px;cursor:pointer;transition:all .15s;}
+.chip:hover{border-color:var(--red);color:var(--red);}
+.thread{margin-top:22px;}
+.q{font-family:'Fraunces',serif;font-weight:600;font-size:18px;margin:20px 0 7px;
+  padding-left:15px;border-left:3px solid var(--red);}
+.a{font-size:16.5px;padding-left:15px;white-space:pre-wrap;color:var(--ink);}
+.blink::after{content:'▋';animation:bl 1s steps(2) infinite;color:var(--red);}
+@keyframes bl{50%{opacity:0;}}
+ 
+.foot{margin:56px 0 30px;padding-top:18px;border-top:1px solid var(--rule);text-align:center;
+  font-size:12.5px;color:var(--faint);line-height:1.7;}
+.foot b{font-family:'Fraunces',serif;color:var(--ink-soft);}
+ 
+@keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+.notice{background:#fbeeec;border:1px solid var(--red-soft);color:var(--red);font-size:13px;
+  padding:11px 14px;border-radius:3px;margin:14px 0;}
+</style>
+ 
+<div class="grain"></div>
+ 
+<div class="topbar">
+  <div class="brand">CASC<span>A</span>DE</div>
+  <div class="right">
+    <span id="datestamp"></span>
+    <button class="refresh" id="refreshBtn">↻ Refresh</button>
+  </div>
+</div>
+ 
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">The Economy · Explained in Dominoes</div>
+    <h1>Cascade</h1>
+    <div class="tag">What happened, why it matters, and what it sets in motion next.</div>
+    <div class="todayline" id="todayline"></div>
+  </div>
+ 
+  <div class="howto">
+    <div class="dot">i</div>
+    <p><b>New to markets?</b> Read the snapshot up top to see how the world moved. Then each story below shows a <b>chain reaction</b> — the numbered steps walk you from a single event to its knock-on effects across stocks, interest rates, and currencies. No jargon. Everything explained from scratch.</p>
+  </div>
+ 
+  <div class="sec">The Snapshot <small id="snapnote"></small></div>
+  <div class="tape" id="tape"></div>
+ 
+  <div class="sec">Today's Chain Reactions</div>
+  <div id="stories"></div>
+ 
+  <div class="sec">On The Radar</div>
+  <div class="radar" id="radar"></div>
+ 
+  <div class="sec">The Bigger Picture</div>
+  <div id="themes"></div>
+ 
+  <div class="onething">
+    <div class="lab">If you remember one thing</div>
+    <p id="onething"></p>
+  </div>
+ 
+  <div class="qa">
+    <h2>Ask Cascade</h2>
+    <p class="sub">Confused by anything above? Ask in plain words and get a plain answer.</p>
+    <div class="askbox">
+      <input id="qinput" placeholder="e.g. Why do higher interest rates hurt tech stocks?" />
+      <button id="askBtn">Ask</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="thread" id="thread"></div>
+  </div>
+ 
+  <div class="foot">
+    <b>Cascade</b> — markets and the global economy, translated for everyone.<br/>
+    Educational summary, not financial advice. Updated each morning.
+  </div>
+</div>
+ 
+<script>
+// ---- Today's briefing (baked in so the page is complete instantly) ----
+const BRIEF = {
+  todayline: "Markets just flipped from betting on rate cuts to fearing a rate hike — and Tuesday's inflation report decides which way it breaks.",
+  snapnote: "as of Friday's close",
+  tape: [
+    {nm:"S&P 500", mv:"−2.6%", dir:"down", nt:"Worst day since October on a tech selloff"},
+    {nm:"Nasdaq", mv:"−4.2%", dir:"down", nt:"Chip stocks crashed — biggest drop since early 2025"},
+    {nm:"Dow", mv:"−1.4%", dir:"down", nt:"Held up best as money fled to safer names"},
+    {nm:"US 10-Yr Yield", mv:"4.53%", dir:"up", nt:"Jumped on the hot jobs data"},
+    {nm:"US 2-Yr Yield", mv:"4.12%", dir:"up", nt:"Fed-sensitive rate at a multi-week high"},
+    {nm:"EUR / USD", mv:"1.155", dir:"down", nt:"Euro slipped as the dollar surged"},
+    {nm:"USD / JPY", mv:"160.3", dir:"up", nt:"Yen weak, testing a sensitive level"},
+    {nm:"Gold", mv:"−3.9%", dir:"down", nt:"Erased all of its 2026 gains"},
+    {nm:"Brent Oil", mv:"+3.9%", dir:"up", nt:"Still elevated on the Iran conflict"},
+    {nm:"Bitcoin", mv:"~$61k", dir:"down", nt:"Near its lowest level of the year"}
+  ],
+  stories: [
+    {
+      headline:"The jobs report came in way too hot",
+      what:"US employers added 172,000 jobs in May — roughly double the ~80,000 expected — with unemployment steady at 4.3%. Sounds like good news, but markets hated it.",
+      why:"A booming job market makes the Federal Reserve more worried about inflation, not less — so rate cuts come off the table and a rate hike comes onto it.",
+      dominoes:[
+        "Strong jobs signal the economy is running hot",
+        "That fuels inflation fears, so the Fed has no reason to cut rates — and might even raise them",
+        "Investors dump bonds, which pushes interest rates (yields) up",
+        "Higher yields make safe bonds more attractive than pricey stocks, and shrink the value of profits companies won't earn for years",
+        "The stocks built on far-off future profits — tech and AI names — get hit hardest, dragging the whole market down"
+      ]
+    },
+    {
+      headline:"Chip stocks fell off a cliff",
+      what:"Broadcom declined to raise its outlook for AI chips, and the whole semiconductor group cratered: Marvell and Micron fell ~16% and ~13%, Intel and AMD around 11%, Nvidia ~6%. About $1 trillion in value vanished in a day.",
+      why:"A handful of giant chipmakers are now so large that when they fall, they drag entire indexes — and the AI story — down with them.",
+      dominoes:[
+        "One bellwether (Broadcom) hints AI chip demand may be leveling off",
+        "Investors who crowded into the AI trade all rush for the exit at once",
+        "Because these few chip giants are a huge slice of the index, their drop sinks the whole Nasdaq",
+        "The rising interest rates from the jobs story pour fuel on the fire",
+        "Fear spreads to anything 'expensive,' and the 'is AI a bubble?' debate suddenly feels real"
+      ]
+    },
+    {
+      headline:"The dollar surged — and that bruised gold and the yen",
+      what:"As US interest rates jumped, the dollar strengthened against nearly everything. Gold dropped over $100 an ounce and the Japanese yen weakened toward 160 per dollar.",
+      why:"Money chases higher returns. When US rates rise, the dollar pulls in global cash — and everything priced against it adjusts.",
+      dominoes:[
+        "Higher US yields mean holding dollars now pays more interest",
+        "Global money flows into dollars, so the dollar strengthens",
+        "Gold pays no interest and gets pricier for foreign buyers, so it falls",
+        "The gap between US and near-zero Japanese rates widens, pushing the yen down toward levels that make policymakers nervous"
+      ]
+    },
+    {
+      headline:"Oil is the quiet inflation threat in the background",
+      what:"The Israel-Iran conflict that began in February has kept oil prices elevated, with the situation still fragile.",
+      why:"Expensive oil feeds straight into inflation — which is the exact thing keeping the Fed in 'maybe hike' mode.",
+      dominoes:[
+        "Conflict near key oil shipping routes keeps oil prices high",
+        "Fuel and shipping cost more, so prices rise across the economy",
+        "That reinforces inflation fears and the case for higher rates",
+        "Which keeps yields up and the dollar strong — tying the geopolitics back to your screens"
+      ]
+    }
+  ],
+  radar:[
+    {t:"Tue 8:30am", event:"US Inflation Report (CPI)", exp:"The single biggest event this week. April already ran hot at +3.8% over the year.",
+     imp:"A hot number confirms the hike fears — rates up, dollar up, stocks down. A cool number brings huge relief and a possible bounce."},
+    {t:"All week", event:"Federal Reserve speakers", exp:"The Fed, now led by Kevin Warsh, is reportedly dropping its rate-forecast 'dot plot'.",
+     imp:"With less official guidance, every speaker's tone moves markets more than usual."}
+  ],
+  themes:[
+    {theme:"The AI question", note:"Friday was the first real crack in the AI trade — one cautious outlook erased a trillion dollars. The boom-or-bubble debate just got louder."},
+    {theme:"The rate path", note:"The whole story of 2026 flipped from 'when will the Fed cut?' to 'could the Fed actually hike?'"},
+    {theme:"Geopolitics", note:"The Iran conflict keeps a floor under oil prices and a question mark over inflation."}
+  ],
+  oneThing:"The market's entire storyline flipped — from expecting rate cuts to fearing a rate hike — and Tuesday's inflation report is the referee that decides which way it breaks. Everything this week bends around that 8:30am number."
+};
+ 
+const SUGGESTED = [
+  "Why do higher interest rates hurt tech stocks?",
+  "What is a Treasury yield, simply?",
+  "Why does a strong dollar push gold down?",
+  "What would a hot inflation report mean for me?"
+];
+ 
+function render(b){
+  document.getElementById('todayline').innerHTML = b.todayline;
+  document.getElementById('snapnote').textContent = b.snapnote || "";
+  document.getElementById('tape').innerHTML = b.tape.map(t =>
+    `<div class="cell"><div class="nm">${t.nm}</div><div class="mv ${t.dir}">${t.mv}</div><div class="nt">${t.nt}</div></div>`).join('');
+  document.getElementById('stories').innerHTML = b.stories.map((s,i) => `
+    <div class="story" style="animation-delay:${i*0.05}s">
+      <h3><span class="num">${i+1}</span>${s.headline}</h3>
+      <p class="what">${s.what}</p>
+      <p class="why">Why it matters: ${s.why}</p>
+      <div class="chain">
+        <div class="lab">The chain reaction</div>
+        ${s.dominoes.map((d,j) => `
+          <div class="step"><div class="b">${j+1}</div><div class="line"></div>
+          ${j < s.dominoes.length-1 ? '<div class="arrow">▼</div>' : ''}
+          <div class="txt">${d}</div></div>`).join('')}
+      </div>
+    </div>`).join('');
+  document.getElementById('radar').innerHTML = b.radar.map(r => `
+    <div class="t">${r.t}</div>
+    <div class="d"><b>${r.event}</b><div class="exp">${r.exp}</div><div class="imp">${r.imp}</div></div>`).join('');
+  document.getElementById('themes').innerHTML = b.themes.map(t =>
+    `<div class="theme"><b>${t.theme}.</b> ${t.note}</div>`).join('');
+  document.getElementById('onething').textContent = b.oneThing;
+}
+ 
+document.getElementById('datestamp').textContent = new Date().toLocaleDateString('en-US',
+  {weekday:'short', month:'short', day:'numeric'});
+document.getElementById('chips').innerHTML = SUGGESTED.map(q => `<div class="chip">${q}</div>`).join('');
+render(BRIEF);
+ 
+// ---- Live helpers (work once deployed with an API key) ----
+function textOf(data){
+  if(!data || !data.content) return "";
+  return data.content.filter(b=>b.type==="text").map(b=>b.text).join("\n");
+}
+async function callClaude(messages){
+  const r = await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:1000, messages,
+      tools:[{type:"web_search_20250305", name:"web_search"}] })
+  });
+  return r.json();
+}
+ 
+const refreshBtn = document.getElementById('refreshBtn');
+refreshBtn.addEventListener('click', async () => {
+  refreshBtn.disabled = true; refreshBtn.textContent = "Loading…";
+  try{
+    const today = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+    const prompt = `You are a markets analyst writing for someone new to markets. Plain English, no jargon. Today is ${today}. Search the web for the very latest, then return ONLY a JSON object (no fences) shaped exactly like this: {"todayline":"one-sentence summary of today","snapnote":"e.g. as of the latest close","tape":[{"nm":"S&P 500","mv":"+0.4%","dir":"up|down|flat","nt":"one-line reason"}],"stories":[{"headline":"...","what":"1-2 sentences","why":"...","dominoes":["step1","then step2","then step3"]}],"radar":[{"t":"Tue 8:30am","event":"...","exp":"...","imp":"what a beat/miss does"}],"themes":[{"theme":"...","note":"..."}],"oneThing":"..."}. Cover major indices, key bond yields, FX (EUR/USD, USD/JPY, gold, oil, bitcoin) in the tape; give 3-5 stories where "dominoes" walks the chain of knock-on effects; keep it tight and jargon-free.`;
+    const data = await callClaude([{role:"user", content:prompt}]);
+    let txt = textOf(data).replace(/```json|```/g,'').trim();
+    const j = JSON.parse(txt.slice(txt.indexOf('{'), txt.lastIndexOf('}')+1));
+    render(j);
+    refreshBtn.textContent = "↻ Refresh";
+  }catch(e){
+    const n = document.createElement('div'); n.className='notice';
+    n.textContent = "Live refresh runs once this is deployed with an API key. Showing today's saved briefing.";
+    document.getElementById('tape').before(n); setTimeout(()=>n.remove(), 5000);
+    refreshBtn.textContent = "↻ Refresh";
+  }
+  refreshBtn.disabled = false;
+});
+ 
+// ---- Q&A ----
+const thread = document.getElementById('thread');
+const qinput = document.getElementById('qinput');
+const askBtn = document.getElementById('askBtn');
+let asking = false;
+async function ask(question){
+  question = (question||"").trim(); if(!question || asking) return;
+  qinput.value = ""; asking = true; askBtn.disabled = true;
+  const qEl = document.createElement('div'); qEl.className='q'; qEl.textContent = question;
+  const aEl = document.createElement('div'); aEl.className='a blink'; aEl.textContent = "Thinking";
+  thread.append(qEl, aEl); aEl.scrollIntoView({behavior:'smooth', block:'center'});
+  try{
+    const data = await callClaude([{role:"user", content:
+      `Here is today's market briefing for context:\n${JSON.stringify(BRIEF)}\n\nA reader new to markets asks: "${question}"\nAnswer in plain English with no jargon, walk through any knock-on effects, and keep it to a few tight paragraphs. Search the web if you need fresher detail.`}]);
+    aEl.className='a'; aEl.textContent = textOf(data) || "Sorry, I couldn't find an answer to that one.";
+  }catch(e){
+    aEl.className='a';
+    aEl.textContent = "The Ask feature talks to Claude live — it'll work once the site is deployed with your API key. (Right now you're viewing the design preview.)";
+  }
+  asking = false; askBtn.disabled = false;
+}
+askBtn.addEventListener('click', () => ask(qinput.value));
+qinput.addEventListener('keydown', e => { if(e.key==='Enter') ask(qinput.value); });
+document.getElementById('chips').addEventListener('click', e => {
+  if(e.target.classList.contains('chip')) ask(e.target.textContent);
+});
+</script>
